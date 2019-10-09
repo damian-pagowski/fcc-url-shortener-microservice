@@ -49,11 +49,11 @@ app.get('/api/shorturl/:link_id', (req, res) => {
       console.log('Found URL: ' + savedUrl)
       res.status(301).redirect(savedUrl)
     } else {
-      res.json({ error: 'Invalid Url' })
+      res.status(400).json({ error: 'Invalid Url' })
     }
   } catch (err) {
     console.log('Invalid Parameter Provided: ' + err)
-    res.json({ error: 'Invalid Url' })
+    res.status(400).json({ error: 'Invalid Url' })
   }
 })
 
