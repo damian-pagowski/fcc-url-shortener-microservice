@@ -1,0 +1,8 @@
+.myapp {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.input-wrapper {
+  margin: auto;
+}

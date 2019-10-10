@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/public/style.css" />
+    <title>Damian's Url Shortener</title>
+  </head>
+  <body>
+    <!-- jumbotron -->
+    <div class="myapp">
+      <div class="container">
+        <div class="jumbotron align-middle">
+          <h1 class="display-4 text-center">Damian's Url Shortener</h1>
+          <hr class="my-4" />
+
+          <!-- form -->
+          <form class="form-inline" action="api/shorturl/new" method="POST">
+            <div class="input-wrapper">
+              <label class="sr-only" for="longUrl">URL</label>
+              <input
+                type="text"
+                class="form-control mb-2 mr-sm-2"
+                id="longUrl"
+                placeholder="Paste Long Url Here"
+                name="url"
+              />
+              <button type="submit" class="btn btn-primary mb-2">
+                Shorten
+              </button>
+            </div>
+          </form>
+          <!-- form end -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

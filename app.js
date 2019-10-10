@@ -1,11 +1,12 @@
+const addUrl =  require('./controllers/urlHandler').addUrl;
+const handleShortUrl =  require('./controllers/urlHandler').handleShortUrl;
+// import { addUrl } from './controllers/urlHandler'
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const dns = require('dns')
-
+// const urlHandler = require('./controllers/urlHandler.js')
 require('dotenv').config()
 const port = process.env.PORT
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -14,47 +15,14 @@ app.use(function middleware (req, res, next) {
   console.log(log)
   next()
 })
+app.use('/public', express.static(process.cwd() + '/public'))
 
-const urls = {}
-let latestIndex = 0
-
-app.post('/api/shorturl/new', (req, res) => {
-  try {
-    const url = req.body.url
-    const tokenizedUrl = url.split('://')
-    dns.lookup(tokenizedUrl[1], (err, addr) => {
-      console.log(`IP: ${addr} ERRORS: ${err}`)
-      if (addr !== null && err == null) {
-        urls[++latestIndex] = url
-        console.log('STORED URLS: ' + JSON.stringify(urls))
-        res.json({ original_url: url, short_url: latestIndex })
-      } else {
-        res.json({ error: 'Invalid Url' })
-      }
-    })
-  } catch (err) {
-    console.log('Invalid Parameter Provided: ' + err)
-    res.json({ error: 'Invalid Url' })
-  }
+app.get('/', function (req, res) {
+  res.sendFile(process.cwd() + '/views/index.html')
 })
 
-app.get('/api/shorturl/:link_id', (req, res) => {
-  try {
-    const param = req.params['link_id']
-    console.log('Parameter received: ' + param)
-    const linkId = parseInt(param)
-    const savedUrl = urls[linkId]
-    console.log('Saved URL: ' + savedUrl)
-    if (savedUrl) {
-      console.log('Found URL: ' + savedUrl)
-      res.status(301).redirect(savedUrl)
-    } else {
-      res.status(400).json({ error: 'Invalid Url' })
-    }
-  } catch (err) {
-    console.log('Invalid Parameter Provided: ' + err)
-    res.status(400).json({ error: 'Invalid Url' })
-  }
-})
+app.post('/api/shorturl/new', addUrl)
+
+app.get('/api/shorturl/:link_id', handleShortUrl)
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
