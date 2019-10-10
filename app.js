@@ -9,6 +9,8 @@ require('dotenv').config()
 const port = process.env.PORT
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.set('view engine', 'ejs');
+
 
 app.use(function middleware (req, res, next) {
   const log = `${req.method} - ${req.path} - ${req.ip}`

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/public/style.css" />
+    <title>Damian's Url Shortener</title>
+  </head>
+  <body>
+    <!-- jumbotron -->
+    <div class="myapp">
+      <div class="container">
+        <div class="jumbotron align-middle">
+          <h4 class="display-4 text-center">Your URL shortened</h4>
+          <!-- <hr class="my-4" /> -->
+
+          <!-- form -->
+          <div class="input-wrapper">
+            <label class="sr-only" for="originalURL">ORIGINAL URL</label>
+            <input
+              type="text"
+              class="form-control mb-2 mr-sm-2"
+              id="originalURL"
+              readonly
+              value="<%= originalURL %>"
+            />
+          </div>
+          <div class="input-wrapper">
+                <label class="sr-only" for="shortURL">URL</label>
+                <input
+                  type="text"
+                  class="form-control mb-2 mr-sm-2"
+                  id="shortURL"
+                  readonly
+                  value="<%= shortURL %>"
+                  />
+              </div>
+          <!-- form end -->
+          <div class="button-wrapper">
+              <a class="btn btn-primary mb-2" href="/">
+                  Shorten another URL
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -11,14 +11,21 @@ exports.addUrl = (req, res) => {
       if (addr !== null && err == null) {
         urls[++latestIndex] = url
         console.log('STORED URLS: ' + JSON.stringify(urls))
-        res.json({ original_url: url, short_url: latestIndex })
+        // res.json({ original_url: url, short_url: latestIndex })
+        res.render('result', {
+          originalURL: url,
+          shortURL: latestIndex
+        })
       } else {
-        res.json({ error: 'Invalid Url' })
+        // res.json({ error: 'Invalid Url' })
+        res.render('error')
+
       }
     })
   } catch (err) {
     console.log('Invalid Parameter Provided: ' + err)
-    res.json({ error: 'Invalid Url' })
+    // res.json({ error: 'Invalid Url' })
+    res.render('error')
   }
 }
 

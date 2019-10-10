@@ -6,3 +6,10 @@
 .input-wrapper {
   margin: auto;
 }
+
+.button-wrapper > a {
+  display: block;
+}
+.button-wrapper {
+  justify-items: center;
+}
