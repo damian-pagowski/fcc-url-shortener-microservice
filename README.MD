@@ -13,6 +13,14 @@ PORT=3050
 npm i
 npm start
 ```
+Application requires MongoDB server access to persist and load data. 
+System variavles must be defined in .env file. Example below:
+```
+PORT=3050
+DB_SERVER_ADDR=127.0.0.1
+DB_PORT=27017
+DB_NAME=urls
+```
 # Example Usage
 ## Creating Shortened URL
 ```
