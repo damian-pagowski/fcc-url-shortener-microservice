@@ -1,16 +1,17 @@
-const addUrl =  require('./controllers/urlHandler').addUrl;
-const handleShortUrl =  require('./controllers/urlHandler').handleShortUrl;
-// import { addUrl } from './controllers/urlHandler'
+const controller = require('./controllers/urls')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-// const urlHandler = require('./controllers/urlHandler.js')
 require('dotenv').config()
-const port = process.env.PORT
+const port = process.env.APP_PORT
+const mongoose = require('mongoose')
+const database = process.env.DB_NAME
+const server = process.env.DB_SERVER_ADDR
+const dbPort = process.env.DB_PORT
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 
 app.use(function middleware (req, res, next) {
   const log = `${req.method} - ${req.path} - ${req.ip}`
@@ -23,8 +24,13 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html')
 })
 
-app.post('/api/shorturl/new', addUrl)
+app.post('/api/shorturl/new', controller.addUrl)
 
-app.get('/api/shorturl/:link_id', handleShortUrl)
+app.get('/api/shorturl/:link_id', controller.handleShortUrl)
+
+console.log(
+  'Connecting to database - ' + `mongodb://${server}:${dbPort}/${database}`
+)
+mongoose.connect(`mongodb://${server}:${dbPort}/${database}`)
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))

@@ -1,5 +1,5 @@
 const dns = require('dns')
-const dao = require('./urlDao')
+const UrlEntity = require('../models/urlEntity')
 
 exports.addUrl = (req, res) => {
   const url = req.body.url
@@ -8,12 +8,18 @@ exports.addUrl = (req, res) => {
     dns.lookup(tokenizedUrl[1], (err, addr) => {
       console.log(`DNS lookup: ${addr} ERRORS: ${err}`)
       if (addr) {
-        dao.persistUrl(url).then(data =>
-          res.render('result', {
-            originalURL: data.url,
-            shortURL: data.index
+        UrlEntity.getLastIndex().then(i => {
+          const entity = new UrlEntity({ url, index: ++i })
+          entity.save().then((data, err) => {
+            if (err) {
+            } else {
+              res.render('result', {
+                originalURL: data.url,
+                shortURL: data.index
+              })
+            }
           })
-        )
+        })
       } else {
         res.render('error')
       }
@@ -27,16 +33,12 @@ exports.handleShortUrl = (req, res) => {
   const param = req.params['link_id']
   console.log('Parameter received: ' + param)
   const linkId = parseInt(param)
-  // savedUrl = urls[linkId]
-  // savedUrl.then(d => console.log(JSON.stringify(d)))
-  dao
-    .getByIndex(linkId)
+  UrlEntity.findByIndex(linkId)
     .then(data => {
       if (data) {
         console.log('Found URL: ' + data.url)
         res.status(301).redirect(data.url)
       } else {
-        // res.status(400).json({ error: 'Invalid Url' })
         res.render('error')
       }
     })
